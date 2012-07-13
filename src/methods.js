@@ -14,10 +14,10 @@ router.post('/getblockcount', (req, res) =>{
         .then(result => {
             res.json(result.data);
         })
-        // .catch(err => {
-        //     console.error(err);
-        //     res.json(err);
-        // })
+        .catch(err => {
+            console.error(err);
+            res.json(err);
+        })
 });
 router.post('/getblock', (req, res) =>{
     var body = JSON.stringify({jsonrpc:'1.0', id: 'curltext', method: 'getblock', params: [req.body.blockhash, true]});
