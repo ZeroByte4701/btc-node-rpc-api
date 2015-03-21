@@ -28,6 +28,14 @@ router.post('/getblock', (req, res) =>{
     //     .catch(err => {
     //         console.error(err);
     //         res.json(err);
+    //     })var body = JSON.stringify({jsonrpc:'1.0', id: 'curltext', method: 'getblock', params: [req.body.blockhash, true]});
+    // axios.post(core_host, body, headers)
+    //     .then(result => {
+    //         res.json(result.data);
+    //     })
+    //     .catch(err => {
+    //         console.error(err);
+    //         res.json(err);
     //     })
 });
 router.post('/getblockchaininfo', (req, res) => {
