@@ -6,7 +6,8 @@ const bitcoin_conf = {
     network: conf.rpc_net,
     username: conf.rpc_user,
     password: conf.rpc_pwd,
-    port: conf.rpc_port
+    port: conf.rpc_port,
+    wallet: wallet.dat
 }
 console.log(bitcoin_conf)
 const client = new Client(bitcoin_conf);
