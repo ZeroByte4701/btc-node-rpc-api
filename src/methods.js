@@ -14,11 +14,7 @@ router.get('/test', (req, res) => {
     console.log('backend works well!');
 });
 router.post('/getblockcount', (req, res) => {
-    client.getBlockchainInformation().then((help) => {
-        res.json(help);
-    }).catch(err => {
-        throw err;
-    })
+    console.log(client.getBlockchainInformation());
 });
 
 module.exports = router;
