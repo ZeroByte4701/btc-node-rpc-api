@@ -2,6 +2,7 @@
     "cSpell.words": [
         "curltext",
         "getblockchaininfo",
-        "getblockcount"
+        "getblockcount",
+        "getblockhash"
     ]
 }
