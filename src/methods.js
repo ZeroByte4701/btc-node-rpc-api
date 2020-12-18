@@ -5,7 +5,8 @@ const conf = require('./conf');
 const bitcoin_conf = {
     network: conf.rpc_net,
     username: conf.rpc_user,
-    password: conf.rpc_pwd
+    password: conf.rpc_pwd,
+    port: conf.rpc_port
 }
 console.log(bitcoin_conf)
 const client = new Client(bitcoin_conf);
