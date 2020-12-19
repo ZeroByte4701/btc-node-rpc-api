@@ -11,6 +11,9 @@ const bitcoin_conf = {
     port: conf.rpc_port,
     wallet: 'wallet.dat'
 }
+const headers = {
+    'Content-Type': 'text/plain'
+};
 console.log(bitcoin_conf)
 const client = new Client(bitcoin_conf);
 router.get('/test', (req, res) => {
@@ -21,9 +24,6 @@ router.post('/getblockcount', (req, res) => {
 });
 
 router.post('/getblockchaininfo', (req, res) => {
-    const headers = {
-        'content-type':'text/plain'
-    };
     const url = `http://${conf.rpc_user}:${conf.rpc_pwd}@${conf.rpc_url}:${conf.rpc_port}`;
     const body = JSON.stringify({jsonrpc:'1.0', id: 'curltext', method: 'getblockchaininfo', params: []});
     axios.post(url, body, headers)
@@ -38,11 +38,8 @@ router.post('/getblockchaininfo', (req, res) => {
 });
 
 router.post('/getblockhash', (req, res) => {
-    const headers = {
-        'content-type':'text/plain'
-    };
     var url = `http://${conf.rpc_user}:${conf.rpc_pwd}@${conf.rpc_url}:${conf.rpc_port}`;
-    var body = JSON.stringify({jsonrpc:'1.0', id: 'curltext', method: 'getblockhash', params: [req.body.blocknumber]});
+    var body = JSON.stringify({jsonrpc:'1.0', id: 'curltext', method: 'getblockhash', params: [parseInt(req.body.blocknumber)]});
     axios.post(url, body, headers)
         .then(result => {
             console.log(result.data);
