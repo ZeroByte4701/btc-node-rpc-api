@@ -39,7 +39,7 @@ router.post('/getblockchaininfo', (req, res) => {
 
 router.post('/getblockhash', (req, res) => {
     var url = `http://${conf.rpc_user}:${conf.rpc_pwd}@${conf.rpc_url}:${conf.rpc_port}`;
-    var body = JSON.stringify({jsonrpc:'1.0', id: 'curltext', method: 'getblockhash', params: [parseInt(req.body.blocknumber)]});
+    var body = JSON.stringify({jsonrpc:'1.0', id: 'curltext', method: 'getblockhash', params: [req.body.blocknumber]});
     axios.post(url, body, headers)
         .then(result => {
             console.log(result.data);
