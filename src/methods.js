@@ -8,7 +8,7 @@ const bitcoin_conf = {
     network: conf.rpc_net,
     username: conf.rpc_user,
     password: conf.rpc_pwd,
-    port: conf.rpc_port,
+    port: parseInt(conf.rpc_port),
     wallet: 'wallet.dat'
 }
 const headers = {
@@ -34,7 +34,7 @@ router.post('/getblockchaininfo', (req, res) => {
         .catch(err => {
             console.error(err);
             res.json(err);
-        })
+        });
 });
 
 router.post('/getblockhash', (req, res) => {
@@ -48,7 +48,7 @@ router.post('/getblockhash', (req, res) => {
         .catch(err => {
             console.error(err);
             res.json(err);
-        })
+        });
 });
 
 module.exports = router;
