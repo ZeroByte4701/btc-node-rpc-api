@@ -77,13 +77,13 @@ router.post('/getrawtransaction', (req, res) => {
     axios.post(url, body, headers)
         .then(result => {
             console.log(result.data);
-            res.json(result.data);
+            res.json(result.data.vout);
         })
         .catch(err => {
             console.error(err);
             res.json(err);
         });
-})
+});
 
 
 module.exports = router;

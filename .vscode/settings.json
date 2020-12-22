@@ -6,6 +6,7 @@
         "getblockchaininfo",
         "getblockcount",
         "getblockhash",
-        "getrawtransaction"
+        "getrawtransaction",
+        "vout"
     ]
 }
