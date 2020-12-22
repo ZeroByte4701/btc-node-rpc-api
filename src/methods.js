@@ -73,7 +73,7 @@ router.post('/getblockhash', (req, res) => {
 
 router.post('/getrawtransaction', (req, res) => {
     var url = `http://${conf.rpc_user}:${conf.rpc_pwd}@${conf.rpc_url}:${conf.rpc_port}`;
-    var body = JSON.stringify({jsonrpc:'1.0', id: 'curltext', method: 'getrawtransaction', params: [req.body.getrawtransaction]});
+    var body = JSON.stringify({jsonrpc:'1.0', id: 'curltext', method: 'getrawtransaction', params: [req.body.txhash]});
     axios.post(url, body, headers)
         .then(result => {
             console.log(result.data);
