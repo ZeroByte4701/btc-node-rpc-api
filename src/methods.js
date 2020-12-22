@@ -33,7 +33,7 @@ router.post('/getblockcount', (req, res) =>{
 });
 router.post('/getblock', (req, res) =>{
     const url = `http://${conf.rpc_user}:${conf.rpc_pwd}@${conf.rpc_url}:${conf.rpc_port}`;
-    const body = JSON.stringify({jsonrpc:'1.0', id: 'curltext', method: 'getblock', params: []});
+    const body = JSON.stringify({jsonrpc:'1.0', id: 'curltext', method: 'getblock', params: [req.body.blockhash]});
     axios.post(url, body, headers)
         .then(result => {
             res.json(result.data);
@@ -73,7 +73,7 @@ router.post('/getblockhash', (req, res) => {
 
 router.post('/getrawtransaction', (req, res) => {
     var url = `http://${conf.rpc_user}:${conf.rpc_pwd}@${conf.rpc_url}:${conf.rpc_port}`;
-    var body = JSON.stringify({jsonrpc:'1.0', id: 'curltext', method: 'getrawtransaction', params: [req.body.blockhash]});
+    var body = JSON.stringify({jsonrpc:'1.0', id: 'curltext', method: 'getrawtransaction', params: [req.body.getrawtransaction]});
     axios.post(url, body, headers)
         .then(result => {
             console.log(result.data);
