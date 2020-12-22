@@ -1,8 +1,11 @@
 {
     "cSpell.words": [
+        "blockhash",
         "curltext",
+        "getblock",
         "getblockchaininfo",
         "getblockcount",
-        "getblockhash"
+        "getblockhash",
+        "getrawtransaction"
     ]
 }
