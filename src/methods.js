@@ -18,11 +18,9 @@ const headers = {
 console.log(bitcoin_conf)
 const client = new Client(bitcoin_conf);
 router.get('/test', (req, res) => {
-    client.getInfo()
-        .then((help) => {
-            console.log(help);
-            res.json(help);
-        });
+    var info = await client.getBlockchainInformation();
+    console.log(info);
+    res.json(info);
 });
 router.post('/getblockcount', (req, res) =>{
     const url = `http://${conf.rpc_user}:${conf.rpc_pwd}@${conf.rpc_url}:${conf.rpc_port}`;
