@@ -17,7 +17,7 @@ const headers = {
 };
 console.log(bitcoin_conf)
 const client = new Client(bitcoin_conf);
-router.get('/test', (req, res) => {
+router.get('/test', async (req, res) => {
     var info = await client.getBlockchainInformation();
     console.log(info);
     res.json(info);
