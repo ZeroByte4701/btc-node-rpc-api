@@ -9,7 +9,8 @@ const bitcoin_conf = {
     username: 'coinpay',//conf.rpc_user,
     password: 'coinpay2020',//conf.rpc_pwd,
     port: 8332,//parseInt(conf.rpc_port),
-    timeout: 3000
+    wallet: 'coinpay-test',
+    timeout: 30000
 }
 const headers = {
     'Content-Type': 'text/plain'
