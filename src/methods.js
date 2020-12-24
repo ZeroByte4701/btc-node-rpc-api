@@ -5,11 +5,11 @@ const Client = require('bitcoin-core');
 const conf = require('./conf');
 const axios = require('axios');
 const bitcoin_conf = {
-    network: 'mainnet',//conf.rpc_net,
+    host: 'localhost',//conf.rpc_net,
     username: 'coinpay',//conf.rpc_user,
     password: 'coinpay2020',//conf.rpc_pwd,
     port: 8332,//parseInt(conf.rpc_port),
-    wallet: 'wallet.dat'
+    timeout: 3000
 }
 const headers = {
     'Content-Type': 'text/plain'
@@ -17,7 +17,11 @@ const headers = {
 console.log(bitcoin_conf)
 const client = new Client(bitcoin_conf);
 router.get('/test', (req, res) => {
-    console.log('backend works well!');
+    client.getInfo()
+        .then((help) => {
+            console.log(help);
+            res.json(help);
+        });
 });
 router.post('/getblockcount', (req, res) =>{
     const url = `http://${conf.rpc_user}:${conf.rpc_pwd}@${conf.rpc_url}:${conf.rpc_port}`;
@@ -73,17 +77,21 @@ router.post('/getblockhash', (req, res) => {
 
 router.post('/getrawtransaction', (req, res) => {
     var url = `http://${conf.rpc_user}:${conf.rpc_pwd}@${conf.rpc_url}:${conf.rpc_port}`;
-    var body = JSON.stringify({jsonrpc:'1.0', id: 'curltext', method: 'getrawtransaction', params: [req.body.txhash, req.body.verbose]});
+    var body = JSON.stringify({jsonrpc:'1.0', id: 'curltext', method: 'getrawtransaction', params: [req.body.txhash, true]});
     axios.post(url, body, headers)
         .then(result => {
             console.log(result.data.vout);
-            res.json(result.data);
+            res.json(result.data.result.vout);
         })
         .catch(err => {
             console.error(err);
             res.json(err);
         });
 });
+
+router.post('/generate_new_address', (req, res) => {
+    var url = `http://${conf.rpc_user}:${conf.rpc_pwd}@${conf.rpc_url}:${conf.rpc_port}`
+})
 
 
 module.exports = router;
