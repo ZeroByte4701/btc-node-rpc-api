@@ -3,6 +3,7 @@
         "blockhash",
         "coinpay",
         "curltext",
+        "dumpprivkey",
         "getblock",
         "getblockchaininfo",
         "getblockcount",

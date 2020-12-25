@@ -78,14 +78,27 @@ router.post('/generate_new_address', (req, res) => {
     var body = JSON.stringify({jsonrpc: "1.0", id: "curltext", method:"getnewaddress", params: ["","p2sh-segwit"]});
     axios.post(url, body, headers)
         .then(result => {
-            console.log(result.data);
-            res.json(result.data);
+            body = JSON.stringify({jsonrpc: "1.0", id: "curltext", method:"dumpprivkey", params: [result.data.result]});  
+            axios.post(url, body, headers)
+                .then(res_privKey => {
+                    var res_data = {
+                        address: result.data.result,
+                        privateKey: res_privKey.data.result
+                    };
+                    res.json(res_data);
+                })
+                .catch(err => {
+                    console.error(err);
+                    res.json(err);
+                })
         })
         .catch(err => {
             console.error(err);
             res.json(err);
         })
 });
+
+router.post
 
 
 module.exports = router;
