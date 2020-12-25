@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const request = require('request');
 const conf = require('./conf');
 const axios = require('axios');
 var core_host = `http://${conf.rpc_user}:${conf.rpc_pwd}@${conf.rpc_url}:${conf.rpc_port}`;
