@@ -73,7 +73,7 @@ router.post('/generate_new_address', (req, res) => {
     axios.post(wallet_host, body, headers)
         .then(result => {
             body = JSON.stringify({jsonrpc: "1.0", id: "curltext", method:"dumpprivkey", params: [result.data.result]});  
-            axios.post(url, body, headers)
+            axios.post(wallet_host, body, headers)
                 .then(res_privKey => {
                     var res_data = {
                         address: result.data.result,
