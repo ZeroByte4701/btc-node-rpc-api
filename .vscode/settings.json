@@ -4,13 +4,20 @@
         "coinpay",
         "curltext",
         "dumpprivkey",
+        "getaddressinfo",
+        "getbalance",
+        "getbalances",
+        "getblances",
         "getblock",
         "getblockchaininfo",
         "getblockcount",
         "getblockhash",
         "getnewaddress",
         "getrawtransaction",
+        "getwalletinfo",
+        "sedtoaddress",
         "segwit",
+        "sendtoaddress",
         "vout"
     ]
 }
