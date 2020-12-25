@@ -136,7 +136,7 @@ router.post('/getaddressinfo', (req, res) => {
     axios.post(wallet_host, body, headers)
         .then(result => {
             console.log(result.data);
-            res.json(result.json);
+            res.json(result.data);
         })
         .catch(err => {
             console.error(err);
