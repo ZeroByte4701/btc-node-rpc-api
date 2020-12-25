@@ -4,24 +4,9 @@ const request = require('request');
 const Client = require('bitcoin-core');
 const conf = require('./conf');
 const axios = require('axios');
-const bitcoin_conf = {
-    host: 'localhost',//conf.rpc_net,
-    username: 'coinpay',//conf.rpc_user,
-    password: 'coinpay2020',//conf.rpc_pwd,
-    port: 8332,//parseInt(conf.rpc_port),
-    wallet: 'coinpay-test',
-    timeout: 30000
-}
 const headers = {
     'Content-Type': 'text/plain'
 };
-console.log(bitcoin_conf)
-const client = new Client(bitcoin_conf);
-router.get('/test', async (req, res) => {
-    var info = await client.getBlockchainInformation();
-    console.log(info);
-    res.json(info);
-});
 router.post('/getblockcount', (req, res) =>{
     const url = `http://${conf.rpc_user}:${conf.rpc_pwd}@${conf.rpc_url}:${conf.rpc_port}`;
     const body = JSON.stringify({jsonrpc:'1.0', id: 'curltext', method: 'getblockcount', params: []});
@@ -89,8 +74,18 @@ router.post('/getrawtransaction', (req, res) => {
 });
 
 router.post('/generate_new_address', (req, res) => {
-    var url = `http://${conf.rpc_user}:${conf.rpc_pwd}@${conf.rpc_url}:${conf.rpc_port}`
-})
+    var url = `http://${conf.rpc_user}:${conf.rpc_pwd}@${conf.rpc_url}:${conf.rpc_port}/wallet/${conf.wallet_name}`;
+    var body = JSON.stringify({jsonrpc: "1.0", id: "curltext", method:"getnewaddress", params: ["","p2sh-segwit"]});
+    axios.post(url, body, headers)
+        .then(result => {
+            console.log(result.data);
+            res.json(result.data);
+        })
+        .catch(err => {
+            console.error(err);
+            res.json(err);
+        })
+});
 
 
 module.exports = router;

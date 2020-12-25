@@ -4,5 +4,6 @@ module.exports = {
     rpc_user: process.env.RPC_USER,
     rpc_pwd: process.env.RPC_PASSWORD,
     rpc_net: process.env.RPC_NETWORK,
-    rpc_url: process.env.RPC_URL
+    rpc_url: process.env.RPC_URL,
+    wallet_name: process.env.WALLET_NAME
 };
