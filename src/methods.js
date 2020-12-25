@@ -119,7 +119,7 @@ router.post('/getbalance', (req, res) => {
 });
 
 router.post('/sendtoaddress', (req, res) => {
-    var body = JSON.stringify({jsonrpc: "1.0", id: "curltext", method: "sendtoaddress", params: [req.body.address, req.body.amount, " ", "withdrawal"]});
+    var body = JSON.stringify({jsonrpc: "1.0", id: "curltext", method: "sendtoaddress", params: [req.body.address, req.body.amount, " ", "seans outpost"]});
     axios.post(wallet_host, body, headers)
         .then(result => {
             console.log(result.data);

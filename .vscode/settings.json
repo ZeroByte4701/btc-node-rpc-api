@@ -15,6 +15,7 @@
         "getnewaddress",
         "getrawtransaction",
         "getwalletinfo",
+        "seans",
         "sedtoaddress",
         "segwit",
         "sendtoaddress",
