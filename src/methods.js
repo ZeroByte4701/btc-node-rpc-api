@@ -125,17 +125,8 @@ router.post('/sendtoaddress', (req, res) => {
         method: "POST",
         headers: headers,
       };
-    // var body = JSON.stringify({jsonrpc: "1.0", id: "curltext", method: "sendtoaddress", params: [req.body.address, parseFloat(req.body.amount), " ", "seans outpost"]});
-    options.body = `{"jsonrpc": "1.0","id": "curltext","method":"sendtoaddress","params": ["${req.body.address}", ${req.body.amount}, " ", "seans outpost"]}`;
-    // axios.post(wallet_host, body, headers)
-    //     .then(result => {
-    //         console.log(result.data);
-    //         res.json(result.data);
-    //     })
-    //     .catch(err => {
-    //         console.error(err);
-    //         res.json(err);
-    //     });
+    options.body = JSON.stringify({jsonrpc: "1.0", id: "curltext", method: "sendtoaddress", params: [req.body.address, parseFloat(req.body.amount), " ", "seans outpost"]});
+    // options.body = `{"jsonrpc": "1.0","id": "curltext","method":"sendtoaddress","params": ["${req.body.address}", ${req.body.amount}, " ", "seans outpost"]}`;
     callback = (error, response, body) => {
         if (!error && response.statusCode == 200) {
           const data = JSON.parse(body);
