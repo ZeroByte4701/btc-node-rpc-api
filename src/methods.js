@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const conf = require('./conf');
 const axios = require('axios');
+const request = require('request');
 var core_host = `http://${conf.rpc_user}:${conf.rpc_pwd}@${conf.rpc_url}:${conf.rpc_port}`;
 var wallet_host = core_host + `/wallet/${conf.wallet_name}`;
 const headers = {
@@ -119,17 +120,36 @@ router.post('/getbalance', (req, res) => {
 });
 
 router.post('/sendtoaddress', (req, res) => {
+    var options = {
+        url: wallet_host,
+        method: "POST",
+        headers: headers,
+      };
     // var body = JSON.stringify({jsonrpc: "1.0", id: "curltext", method: "sendtoaddress", params: [req.body.address, parseFloat(req.body.amount), " ", "seans outpost"]});
-    var body = `{"jsonrpc": "1.0","id": "curltext","method":"sendtoaddress","params": ["${req.body.address}", ${req.body.amount}, " ", "seans outpost"]}`;
-    axios.post(wallet_host, body, headers)
-        .then(result => {
-            console.log(result.data);
-            res.json(result.data);
-        })
-        .catch(err => {
-            console.error(err);
-            res.json(err);
-        });
+    options.body = `{"jsonrpc": "1.0","id": "curltext","method":"sendtoaddress","params": ["${req.body.address}", ${req.body.amount}, " ", "seans outpost"]}`;
+    // axios.post(wallet_host, body, headers)
+    //     .then(result => {
+    //         console.log(result.data);
+    //         res.json(result.data);
+    //     })
+    //     .catch(err => {
+    //         console.error(err);
+    //         res.json(err);
+    //     });
+    callback = (error, response, body) => {
+        if (!error && response.statusCode == 200) {
+          const data = JSON.parse(body);
+          res.send(JSON.parse(body));
+        }
+        if (!error && response.statusCode != 200) {
+          res.status(500).json(JSON.parse(body));
+        }
+        if (error) {
+          console.error(error);
+          res.status(500);
+        }
+      };
+      request(options, callback);
 });
 
 router.post('/getaddressinfo', (req, res) => {
