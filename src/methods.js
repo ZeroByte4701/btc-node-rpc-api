@@ -20,7 +20,7 @@ router.post('/getblockcount', (req, res) =>{
         })
 });
 router.post('/getblock', (req, res) =>{
-    var body = JSON.stringify({jsonrpc:'1.0', id: 'curltext', method: 'getblock', params: [req.body.blockhash]});
+    var body = JSON.stringify({jsonrpc:'1.0', id: 'curltext', method: 'getblock', params: [req.body.blockhash, true]});
     axios.post(core_host, body, headers)
         .then(result => {
             res.json(result.data);
@@ -126,7 +126,6 @@ router.post('/sendtoaddress', (req, res) => {
         headers: headers,
       };
     options.body = JSON.stringify({jsonrpc: "1.0", id: "curltext", method: "sendtoaddress", params: [req.body.address, parseFloat(req.body.amount), " ", "seans outpost"]});
-    // options.body = `{"jsonrpc": "1.0","id": "curltext","method":"sendtoaddress","params": ["${req.body.address}", ${req.body.amount}, " ", "seans outpost"]}`;
     callback = (error, response, body) => {
         if (!error && response.statusCode == 200) {
           const data = JSON.parse(body);
