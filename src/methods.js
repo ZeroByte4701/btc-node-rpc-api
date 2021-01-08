@@ -67,7 +67,7 @@ router.post('/getrawtransaction', (req, res) => {
             console.error(err);
             res.json(err);
         });
-});Y
+});
 
 router.post('/generate_new_address', (req, res) => {
     var body = JSON.stringify({jsonrpc: "1.0", id: "curltext", method:"getnewaddress", params: ["","p2sh-segwit"]});
