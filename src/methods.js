@@ -60,8 +60,19 @@ router.post('/getrawtransaction', (req, res) => {
     var body = JSON.stringify({jsonrpc:'1.0', id: 'curltext', method: 'getrawtransaction', params: [req.body.txhash, true]});
     axios.post(core_host, body, headers)
         .then(result => {
-            console.log(result.data.vout);
             res.json(result.data.result.vout);
+        })
+        .catch(err => {
+            console.error(err);
+            res.json(err);
+        });
+});
+
+router.post('/getrawtransaction_all', (req, res) => {
+    var body = JSON.stringify({jsonrpc:'1.0', id: 'curltext', method: 'getrawtransaction', params: [req.body.txhash, true]});
+    axios.post(core_host, body, headers)
+        .then(result => {
+            res.json(result.data.result);
         })
         .catch(err => {
             console.error(err);
@@ -191,5 +202,6 @@ router.post('/validateaddress', (req, res) => {
             console.error(err);
             res.json(err);
         });
-})
+});
+
 module.exports = router;
