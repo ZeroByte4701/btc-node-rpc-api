@@ -21,6 +21,7 @@
         "segwit",
         "sendtoaddress",
         "txid",
+        "validateaddress",
         "vout"
     ]
 }

@@ -178,5 +178,18 @@ router.post('/gettransaction', (req, res) => {
             console.error(err);
             res.json(err);
         })
+});
+
+router.post('/validateaddress', (req, res) => {
+    var body = JSON.stringify({jsonrpc: "1.0", id: "curltext", method: "validateaddress", params: [req.body.address]});
+    axios.post(wallet_host, body, headers)
+        .then(result => {
+            console.log(result.data);
+            res.json(result.data);
+        })
+        .catch(err => {
+            console.error(err);
+            res.json(err);
+        });
 })
 module.exports = router;
