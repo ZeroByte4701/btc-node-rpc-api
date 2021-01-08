@@ -14,11 +14,13 @@
         "getblockhash",
         "getnewaddress",
         "getrawtransaction",
+        "gettransaction",
         "getwalletinfo",
         "seans",
         "sedtoaddress",
         "segwit",
         "sendtoaddress",
+        "txid",
         "vout"
     ]
 }

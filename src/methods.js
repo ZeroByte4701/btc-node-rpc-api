@@ -67,7 +67,7 @@ router.post('/getrawtransaction', (req, res) => {
             console.error(err);
             res.json(err);
         });
-});
+});Y
 
 router.post('/generate_new_address', (req, res) => {
     var body = JSON.stringify({jsonrpc: "1.0", id: "curltext", method:"getnewaddress", params: ["","p2sh-segwit"]});
@@ -167,5 +167,16 @@ router.post('/getwalletinfo', (req, res) => {
             res.json(err);
         });
 });
-
+router.post('/gettransaction', (req, res) => {
+    var body = JSON.stringify({jsonrpc: "1.0", id: "curltext", method: "gettransaction", params: [req.body.txid]});
+    axios.post(wallet_host, body, headers)
+        .then(result => {
+            console.log(result.data);
+            res.json(result.data);
+        })
+        .catch(err => {
+            console.error(err);
+            res.json(err);
+        })
+})
 module.exports = router;
