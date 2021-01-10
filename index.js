@@ -1,6 +1,4 @@
 require('dotenv').config();
-process.on('uncaughtException', err => console.error(err, err.stack));
-process.on('unhandledRejection', err => console.error(err, err.stack));
 const express = require('express');
 const bodyParser = require('body-parser');
 const rpc_methods = require('./src/methods');
