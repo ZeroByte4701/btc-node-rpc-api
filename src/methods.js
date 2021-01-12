@@ -140,9 +140,11 @@ router.post('/sendtoaddress', (req, res) => {
     callback = (error, response, body) => {
         if (!error && response.statusCode == 200) {
           const data = JSON.parse(body);
+          console.log(data);
           res.send(JSON.parse(body));
         }
         if (!error && response.statusCode != 200) {
+            console.log(JSON.parse(body))
           res.status(500).json(JSON.parse(body));
         }
         if (error) {
