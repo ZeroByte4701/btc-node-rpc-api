@@ -60,7 +60,20 @@ router.post('/getrawtransaction', (req, res) => {
     var body = JSON.stringify({jsonrpc:'1.0', id: 'curltext', method: 'getrawtransaction', params: [req.body.txhash, true]});
     axios.post(core_host, body, headers)
         .then(result => {
-            res.json(result.data.result);
+            // res.json(result.data.result.vout);
+            if(result.data.result.vout.length > 0) {
+                var addr_val_list = [];
+                for(var trx of result.data.result.vout) {
+                    if(trx.value > 0) {
+                        var addr_value = {
+                            address: trx.scriptPubKey.addresses[0],
+                            value: trx.value
+                        }
+                        addr_val_list.push(addr_value);
+                    }
+                }
+                res.send(addr_val_list);
+            } else {res.send([]);}
         })
         .catch(err => {
             console.error(err);
