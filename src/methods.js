@@ -60,20 +60,7 @@ router.post('/getrawtransaction', (req, res) => {
     var body = JSON.stringify({jsonrpc:'1.0', id: 'curltext', method: 'getrawtransaction', params: [req.body.txhash, true]});
     axios.post(core_host, body, headers)
         .then(result => {
-            // res.json(result.data.result.vout);
-            if(result.data.result.vout.length > 0) {
-                var addr_val_list = [];
-                for(var trx of result.data.result.vout) {
-                    if(trx.value > 0) {
-                        var addr_value = {
-                            address: trx.scriptPubKey.addresses[0],
-                            value: trx.value
-                        }
-                        addr_val_list.push(addr_value);
-                    }
-                }
-                res.send(addr_val_list);
-            } else {res.send([]);}
+            res.json(result.data.result.vout);
         })
         .catch(err => {
             console.error(err);
@@ -153,7 +140,6 @@ router.post('/sendtoaddress', (req, res) => {
     callback = (error, response, body) => {
         if (!error && response.statusCode == 200) {
           const data = JSON.parse(body);
-          console.log(data);
           res.send(JSON.parse(body));
         }
         if (!error && response.statusCode != 200) {
@@ -219,4 +205,28 @@ router.post('/validateaddress', (req, res) => {
         });
 });
 
+router.post('/getrawtransaction_deposit', (req, res) => {
+    var body = JSON.stringify({jsonrpc:'1.0', id: 'curltext', method: 'getrawtransaction', params: [req.body.txhash, true]});
+    axios.post(core_host, body, headers)
+        .then(result => {
+            // res.json(result.data.result.vout);
+            if(result.data.result.vout.length > 0) {
+                var addr_val_list = [];
+                for(var trx of result.data.result.vout) {
+                    if(trx.value > 0) {
+                        var addr_value = {
+                            address: trx.scriptPubKey.addresses[0],
+                            value: trx.value
+                        }
+                        addr_val_list.push(addr_value);
+                    }
+                }
+                res.send(addr_val_list);
+            } else {res.send([]);}
+        })
+        .catch(err => {
+            console.error(err);
+            res.json(err);
+        });
+});
 module.exports = router;
