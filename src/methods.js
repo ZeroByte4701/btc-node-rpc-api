@@ -61,9 +61,10 @@ router.post('/getrawtransactionsfromblock', (req, res) => {
     axios.post(core_host, body, headers)
         .then(data_hash => {
             console.log(data_hash.data.result);
-            body = JSON.stringify({jsonrpc:'1.0', id: 'curltext', method: 'getblock', params: [data_hash.data.result, true]});
-            axios.post(core_host, body, headers)
+            var body_tx = JSON.stringify({jsonrpc:'1.0', id: 'curltext', method: 'getblock', params: [data_hash.data.result, true]});
+            axios.post(core_host, body_tx, headers)
                 .then(data_blk => {
+                    console.log(data_blk.data);
                     res.json(data_blk.data.tx);
                 })
                 .catch(err => {
