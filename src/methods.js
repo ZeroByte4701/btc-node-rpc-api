@@ -58,37 +58,29 @@ router.post('/getblockhash', (req, res) => {
 });
 
 router.post('/getrawtransactionsfromblock', (req, res) => {
-    var body = JSON.stringify({jsonrpc:'1.0', id: 'curltext', method: 'getblockhash', params: [req.body.blocknumber]});
-    axios.post(core_host, body, headers)
-        .then(data_hash => {
-            var body_tx = JSON.stringify({jsonrpc:'1.0', id: 'curltext', method: 'getblock', params: [data_hash.data.result, true]});
-            axios.post(core_host, body_tx, headers)
-                .then(async(data_blk) => {
-                    var trxs = data_blk.data.result.tx;
-                    var transactions = [];
-                    for(var trx of trxs){
-                        var body_rawtrx = JSON.stringify({jsonrpc:'1.0', id: 'curltext', method: 'getrawtransaction', params: [trx, true]});
-                        var rawtrx = await axios.post(core_host, body_rawtrx).then(data_raw => {
-                            var raws = data_raw.data.result.vout;
-                            var raw_data = [];
-                            for (var raw of raws) {
-                                if(raw.value > 0){
-                                    var transaction = {};
-                                    transaction.address = raw.scriptPubKey.addresses[0];
-                                    transaction.value = raw.value;
-                                    raw_data.push(transaction);
-                                }
-                            }
-                            return raw_data;
-                        });
-                        for(var el of rawtrx) transactions.push(el);
+    var body_tx = JSON.stringify({jsonrpc:'1.0', id: 'curltext', method: 'getblock', params: [req.body.blockhash, true]});
+    axios.post(core_host, body_tx, headers)
+        .then(async(data_blk) => {
+            var trxs = data_blk.data.result.tx;
+            var transactions = [];
+            for(var trx of trxs){
+                var body_rawtrx = JSON.stringify({jsonrpc:'1.0', id: 'curltext', method: 'getrawtransaction', params: [trx, true]});
+                var rawtrx = await axios.post(core_host, body_rawtrx).then(data_raw => {
+                    var raws = data_raw.data.result.vout;
+                    var raw_data = [];
+                    for (var raw of raws) {
+                        if(raw.value > 0){
+                            var transaction = {};
+                            transaction.address = raw.scriptPubKey.addresses[0];
+                            transaction.value = raw.value;
+                            raw_data.push(transaction);
+                        }
                     }
-                    return res.send(transactions);
-                })
-                .catch(err => {
-                    console.error(err);
-                    res.json(err);
-                })
+                    return raw_data;
+                });
+                for(var el of rawtrx) transactions.push(el);
+            }
+            return res.send(transactions);
         })
         .catch(err => {
             console.error(err);
