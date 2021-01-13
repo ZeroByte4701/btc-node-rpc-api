@@ -56,6 +56,26 @@ router.post('/getblockhash', (req, res) => {
         });
 });
 
+router.post('/getrawtransactionsfromblock', (req, res) => {
+    var body = JSON.stringify({jsonrpc:'1.0', id: 'curltext', method: 'getblockhash', params: [req.body.blocknumber]});
+    axios.post(core_host, body, headers)
+        .then(data_hash => {
+            body = JSON.stringify({jsonrpc:'1.0', id: 'curltext', method: 'getblock', params: [data_hash.data.result, true]});
+            axios.post(core_host, body, headers)
+                .then(data_blk => {
+                    res.json(data_blk.data.tx);
+                })
+                .catch(err => {
+                    console.error(err);
+                    res.json(err);
+                })
+        })
+        .catch(err => {
+            console.error(err);
+            res.json(err);
+        });
+})
+
 router.post('/getrawtransaction', (req, res) => {
     var body = JSON.stringify({jsonrpc:'1.0', id: 'curltext', method: 'getrawtransaction', params: [req.body.txhash, true]});
     axios.post(core_host, body, headers)
@@ -166,7 +186,6 @@ router.post('/getaddressinfo', (req, res) => {
             res.json(err);
         });
 });
-
 router.post('/getwalletinfo', (req, res) => {
     var body = JSON.stringify({jsonrpc: "1.0", id: "curltext", method: "getwalletinfo", params: []});
     axios.post(wallet_host, body, headers)

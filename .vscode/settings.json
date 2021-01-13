@@ -14,6 +14,7 @@
         "getblockhash",
         "getnewaddress",
         "getrawtransaction",
+        "getrawtransactionsfromblock",
         "gettransaction",
         "getwalletinfo",
         "seans",
