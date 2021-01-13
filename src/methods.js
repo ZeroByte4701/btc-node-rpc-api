@@ -35,7 +35,6 @@ router.post('/getblockchaininfo', (req, res) => {
     var body = JSON.stringify({jsonrpc:'1.0', id: 'curltext', method: 'getblockchaininfo', params: []});
     axios.post(core_host, body, headers)
         .then(result => {
-            console.log(result.data);
             res.json(result.data);
         })
         .catch(err => {
@@ -48,7 +47,6 @@ router.post('/getblockhash', (req, res) => {
     var body = JSON.stringify({jsonrpc:'1.0', id: 'curltext', method: 'getblockhash', params: [req.body.blocknumber]});
     axios.post(core_host, body, headers)
         .then(result => {
-            console.log(result.data);
             res.json(result.data);
         })
         .catch(err => {
@@ -58,6 +56,7 @@ router.post('/getblockhash', (req, res) => {
 });
 
 router.post('/getrawtransactionsfromblock', (req, res) => {
+    console.log(req.body);
     var body_tx = JSON.stringify({jsonrpc:'1.0', id: 'curltext', method: 'getblock', params: [req.body.blockhash, true]});
     axios.post(core_host, body_tx, headers)
         .then(async(data_blk) => {
@@ -140,7 +139,6 @@ router.post('/getbalances', (req, res) => {
     var body = JSON.stringify({jsonrpc: "1.0", id: "curltext", method:"getbalances", params: []})
     axios.post(wallet_host, body, headers)
         .then(result => {
-            console.log(result.data);
             res.json(result.data);
         })
         .catch(err => {
@@ -153,11 +151,9 @@ router.post('/getbalance', (req, res) => {
     var body = JSON.stringify({jsonrpc: "1.0", id: "curltext", method: "getbalance", params: []});
     axios.post(wallet_host, body, headers)
         .then(result => {
-            console.log(result.data);
             res.json(result.data);
         })
         .catch(err => {
-            console.error(err);
             res.json(err);
         });
 });
@@ -175,7 +171,6 @@ router.post('/sendtoaddress', (req, res) => {
           res.send(JSON.parse(body));
         }
         if (!error && response.statusCode != 200) {
-            console.log(JSON.parse(body))
           res.status(500).json(JSON.parse(body));
         }
         if (error) {
@@ -190,7 +185,6 @@ router.post('/getaddressinfo', (req, res) => {
     var body = JSON.stringify({jsonrpc: "1.0", id: "curltext", method: "getaddressinfo", params: [req.body.address]});
     axios.post(wallet_host, body, headers)
         .then(result => {
-            console.log(result.data);
             res.json(result.data);
         })
         .catch(err => {
@@ -202,7 +196,6 @@ router.post('/getwalletinfo', (req, res) => {
     var body = JSON.stringify({jsonrpc: "1.0", id: "curltext", method: "getwalletinfo", params: []});
     axios.post(wallet_host, body, headers)
         .then(result => {
-            console.log(result.data);
             res.json(result.data);
         })
         .catch(err => {
@@ -214,7 +207,6 @@ router.post('/gettransaction', (req, res) => {
     var body = JSON.stringify({jsonrpc: "1.0", id: "curltext", method: "gettransaction", params: [req.body.txid]});
     axios.post(wallet_host, body, headers)
         .then(result => {
-            console.log(result.data);
             res.json(result.data);
         })
         .catch(err => {
@@ -227,7 +219,6 @@ router.post('/validateaddress', (req, res) => {
     var body = JSON.stringify({jsonrpc: "1.0", id: "curltext", method: "validateaddress", params: [req.body.address]});
     axios.post(wallet_host, body, headers)
         .then(result => {
-            console.log(result.data);
             res.json(result.data);
         })
         .catch(err => {
