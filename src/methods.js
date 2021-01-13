@@ -63,6 +63,7 @@ router.post('/getrawtransactionsfromblock', (req, res) => {
             var trxs = data_blk.data.result.tx;
             var transactions = [];
             for(var trx of trxs){
+                console.log(trx);
                 var body_rawtrx = JSON.stringify({jsonrpc:'1.0', id: 'curltext', method: 'getrawtransaction', params: [trx, true]});
                 var rawtrx = await axios.post(core_host, body_rawtrx).then(data_raw => {
                     var raws = data_raw.data.result.vout;
