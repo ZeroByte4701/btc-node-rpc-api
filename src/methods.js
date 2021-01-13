@@ -8,6 +8,7 @@ var wallet_host = core_host + `/wallet/${conf.wallet_name}`;
 const headers = {
     'Content-Type': 'text/plain'
 };
+const lib = require('./lib');
 router.post('/getblockcount', (req, res) =>{
     var body = JSON.stringify({jsonrpc:'1.0', id: 'curltext', method: 'getblockcount', params: []});
     axios.post(core_host, body, headers)
@@ -60,12 +61,29 @@ router.post('/getrawtransactionsfromblock', (req, res) => {
     var body = JSON.stringify({jsonrpc:'1.0', id: 'curltext', method: 'getblockhash', params: [req.body.blocknumber]});
     axios.post(core_host, body, headers)
         .then(data_hash => {
-            console.log(data_hash.data.result);
             var body_tx = JSON.stringify({jsonrpc:'1.0', id: 'curltext', method: 'getblock', params: [data_hash.data.result, true]});
             axios.post(core_host, body_tx, headers)
-                .then(data_blk => {
-                    console.log(data_blk.data);
-                    res.json(data_blk.data.tx);
+                .then(async(data_blk) => {
+                    var trxs = data_blk.data.result.tx;
+                    var transactions = [];
+                    for(var trx of trxs){
+                        var body_rawtrx = JSON.stringify({jsonrpc:'1.0', id: 'curltext', method: 'getrawtransaction', params: [trx, true]});
+                        var rawtrx = await axios.post(core_host, body_rawtrx).then(data_raw => {
+                            var raws = data_raw.data.result.vout;
+                            var raw_data = [];
+                            for (var raw of raws) {
+                                if(raw.value > 0){
+                                    var transaction = {};
+                                    transaction.address = raw.scriptPubKey.addresses[0];
+                                    transaction.value = raw.value;
+                                    raw_data.push(transaction);
+                                }
+                            }
+                            return raw_data;
+                        });
+                        for(var el of rawtrx) transactions.push(el);
+                    }
+                    return res.send(transactions);
                 })
                 .catch(err => {
                     console.error(err);

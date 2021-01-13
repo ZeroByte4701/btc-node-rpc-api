@@ -17,10 +17,12 @@
         "getrawtransactionsfromblock",
         "gettransaction",
         "getwalletinfo",
+        "rawtrx",
         "seans",
         "sedtoaddress",
         "segwit",
         "sendtoaddress",
+        "trxs",
         "txid",
         "validateaddress",
         "vout"
