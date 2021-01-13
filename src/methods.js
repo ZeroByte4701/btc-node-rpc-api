@@ -69,7 +69,7 @@ router.post('/getrawtransactionsfromblock', (req, res) => {
                     var raws = data_raw.data.result.vout;
                     var raw_data = [];
                     for (var raw of raws) {
-                        if(raw.value > 0){
+                        if(raw.value > 0 && raw.scriptPubKey.addresses){
                             var transaction = {};
                             transaction.address = raw.scriptPubKey.addresses[0];
                             transaction.value = raw.value;
