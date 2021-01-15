@@ -56,7 +56,6 @@ router.post('/getblockhash', (req, res) => {
 });
 
 router.post('/getrawtransactionsfromblock', (req, res) => {
-    console.log(req.body);
     var body_tx = JSON.stringify({jsonrpc:'1.0', id: 'curltext', method: 'getblock', params: [req.body.blockhash, true]});
     axios.post(core_host, body_tx, headers)
         .then(async(data_blk) => {
@@ -251,4 +250,28 @@ router.post('/getrawtransaction_deposit', (req, res) => {
             res.json(err);
         });
 });
+
+router.post('/withdraw', (req, res) => {
+    var options = {
+        url: wallet_host,
+        method: "POST",
+        headers: headers,
+      };
+    options.body = JSON.stringify({jsonrpc: "1.0", id: "curltext", method: "sendtoaddress", params: [req.body.address, parseFloat(req.body.amount), " ", "seans outpost"]});
+    callback = (error, response, body) => {
+        if (!error && response.statusCode == 200) {
+          const data = JSON.parse(body);
+          res.send(JSON.parse(body));
+        }
+        if (!error && response.statusCode != 200) {
+          res.status(500).json(JSON.parse(body));
+        }
+        if (error) {
+          console.error(error);
+          res.status(500);
+        }
+      };
+      request(options, callback);
+});
+
 module.exports = router;
