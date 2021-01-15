@@ -8,7 +8,6 @@ var wallet_host = core_host + `/wallet/${conf.wallet_name}`;
 const headers = {
     'Content-Type': 'text/plain'
 };
-const lib = require('./lib');
 router.post('/getblockcount', (req, res) =>{
     var body = JSON.stringify({jsonrpc:'1.0', id: 'curltext', method: 'getblockcount', params: []});
     axios.post(core_host, body, headers)
@@ -98,18 +97,6 @@ router.post('/getrawtransaction', (req, res) => {
         });
 });
 
-router.post('/getrawtransaction_all', (req, res) => {
-    var body = JSON.stringify({jsonrpc:'1.0', id: 'curltext', method: 'getrawtransaction', params: [req.body.txhash, true]});
-    axios.post(core_host, body, headers)
-        .then(result => {
-            res.json(result.data.result);
-        })
-        .catch(err => {
-            console.error(err);
-            res.json(err);
-        });
-});
-
 router.post('/generate_new_address', (req, res) => {
     var body = JSON.stringify({jsonrpc: "1.0", id: "curltext", method:"getnewaddress", params: ["","p2sh-segwit"]});
     axios.post(wallet_host, body, headers)
@@ -153,6 +140,7 @@ router.post('/getbalance', (req, res) => {
             res.json(result.data);
         })
         .catch(err => {
+            console.error(err);
             res.json(err);
         });
 });
@@ -191,6 +179,7 @@ router.post('/getaddressinfo', (req, res) => {
             res.json(err);
         });
 });
+
 router.post('/getwalletinfo', (req, res) => {
     var body = JSON.stringify({jsonrpc: "1.0", id: "curltext", method: "getwalletinfo", params: []});
     axios.post(wallet_host, body, headers)
@@ -201,17 +190,6 @@ router.post('/getwalletinfo', (req, res) => {
             console.error(err);
             res.json(err);
         });
-});
-router.post('/gettransaction', (req, res) => {
-    var body = JSON.stringify({jsonrpc: "1.0", id: "curltext", method: "gettransaction", params: [req.body.txid]});
-    axios.post(wallet_host, body, headers)
-        .then(result => {
-            res.json(result.data);
-        })
-        .catch(err => {
-            console.error(err);
-            res.json(err);
-        })
 });
 
 router.post('/validateaddress', (req, res) => {
@@ -230,7 +208,6 @@ router.post('/getrawtransaction_deposit', (req, res) => {
     var body = JSON.stringify({jsonrpc:'1.0', id: 'curltext', method: 'getrawtransaction', params: [req.body.txhash, true]});
     axios.post(core_host, body, headers)
         .then(result => {
-            // res.json(result.data.result.vout);
             if(result.data.result.vout.length > 0) {
                 var addr_val_list = [];
                 for(var trx of result.data.result.vout) {
