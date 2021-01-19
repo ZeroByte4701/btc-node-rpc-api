@@ -89,7 +89,7 @@ router.post('/getrawtransaction', (req, res) => {
     var body = JSON.stringify({jsonrpc:'1.0', id: 'curltext', method: 'getrawtransaction', params: [req.body.txhash, true]});
     axios.post(core_host, body, headers)
         .then(result => {
-            res.json(result.data.result.vout);
+            res.json(result.data.result);
         })
         .catch(err => {
             console.error(err);
